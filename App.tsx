@@ -5,7 +5,7 @@ import {
   View,
   FlatList,
   TextInput,
-  Button,
+  TouchableOpacity,
 } from "react-native";
 
 // Row component for each user
@@ -13,15 +13,20 @@ const UserItem = ({
   name,
   age,
   favouritecolour,
+  onDelete,
 }: {
   name: string;
   age: number;
   favouritecolour: string;
+  onDelete: () => void;
 }) => (
   <View style={styles.item}>
     <Text style={styles.name}>Name: {name}</Text>
     <Text style={styles.age}>Age: {age}</Text>
     <Text style={styles.color}>Favourite Colour: {favouritecolour}</Text>
+    <TouchableOpacity style={styles.deleteButton} onPress={onDelete}>
+      <Text style={styles.btnText}>Delete</Text>
+    </TouchableOpacity>
   </View>
 );
 
@@ -39,6 +44,7 @@ export default function App() {
   const [newName, setNewName] = useState("");
   const [newAge, setNewAge] = useState("");
   const [newColour, setNewColour] = useState("");
+  const [pressed, setPressed] = useState(false);
 
   // Function to add new user
   const addUser = () => {
@@ -55,18 +61,26 @@ export default function App() {
     setNewColour("");
   };
 
+  // Function to delete user
+  const deleteUser = (id: string) => {
+    setUsers(users.filter((user) => user.id !== id));
+  };
+
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>👋 My Dynamic FlatList</Text>
+      <Text style={styles.title}>This is a FlatList</Text>
 
-      {/* Input fields */}
+      {/* Input fields with labels */}
       <View style={styles.inputContainer}>
+        <Text style={styles.inputLabel}>Name</Text>
         <TextInput
           style={styles.input}
           placeholder="Enter name"
           value={newName}
           onChangeText={setNewName}
         />
+
+        <Text style={styles.inputLabel}>Age</Text>
         <TextInput
           style={styles.input}
           placeholder="Enter age"
@@ -74,13 +88,25 @@ export default function App() {
           onChangeText={setNewAge}
           keyboardType="numeric"
         />
+
+        <Text style={styles.inputLabel}>Favourite Colour</Text>
         <TextInput
           style={styles.input}
           placeholder="Enter favourite colour"
           value={newColour}
           onChangeText={setNewColour}
         />
-        <Button title="Add User" onPress={addUser} />
+
+        {/* Styled Add User button with press animation */}
+        <TouchableOpacity
+          style={[styles.addButton, pressed && { transform: [{ scale: 0.95 }] }]}
+          onPress={addUser}
+          onPressIn={() => setPressed(true)}
+          onPressOut={() => setPressed(false)}
+          activeOpacity={0.9}
+        >
+          <Text style={styles.addButtonText}>Add User</Text>
+        </TouchableOpacity>
       </View>
 
       {/* FlatList */}
@@ -92,6 +118,7 @@ export default function App() {
             name={item.name}
             age={item.age}
             favouritecolour={item.favouritecolour}
+            onDelete={() => deleteUser(item.id)}
           />
         )}
       />
@@ -99,10 +126,11 @@ export default function App() {
   );
 }
 
+// Full StyleSheet
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: "#f1e7e7ff",
     paddingTop: 50,
     paddingHorizontal: 20,
   },
@@ -110,33 +138,104 @@ const styles = StyleSheet.create({
     fontSize: 22,
     fontWeight: "bold",
     marginBottom: 15,
+    color: "#000",
+    textAlign: "center",
   },
   inputContainer: {
     marginBottom: 20,
   },
+  inputLabel: {
+    fontSize: 14,
+    fontWeight: "600",
+    marginBottom: 5,
+    color: "#333",
+  },
   input: {
     borderWidth: 1,
-    borderColor: "#555",
+    borderColor: "#000000ff",
     padding: 10,
     marginBottom: 10,
     borderRadius: 5,
+    backgroundColor: "#fff",
   },
+
+  // Modern Add User button
+  addButton: {
+    backgroundColor: "#4ca8afff", // vibrant green
+    paddingVertical: 15,
+    borderRadius: 25, // rounded
+    alignItems: "center",
+    marginTop: 10,
+
+    // Shadow for iOS
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.3,
+    shadowRadius: 5,
+
+    // Shadow for Android
+    elevation: 6,
+  },
+  addButtonText: {
+    color: "#fff",
+    fontSize: 18,
+    fontWeight: "bold",
+    textTransform: "uppercase",
+  },
+
+  // FlatList Item
   item: {
-    backgroundColor: "#f0f0f0",
+    backgroundColor: "#00ff0dff",
     padding: 15,
     marginVertical: 8,
-    borderRadius: 8,
+    borderRadius: 12,
+    borderWidth: 1,
+    borderColor: "#ddd",
+
+    // Shadow (iOS)
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 3 },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+
+    // Shadow (Android)
+    elevation: 5,
   },
   name: {
     fontSize: 18,
     fontWeight: "600",
+    color: "#000",
   },
   age: {
     fontSize: 14,
     color: "#555",
+    marginTop: 2,
   },
   color: {
     fontSize: 14,
     color: "#333",
+    marginTop: 2,
+  },
+
+  // Delete button
+  deleteButton: {
+    marginTop: 10,
+    backgroundColor: "#ff4d4d",
+    paddingVertical: 8,
+    paddingHorizontal: 12,
+    borderRadius: 6,
+    alignItems: "center",
+
+    // Button shadow for depth
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.3,
+    shadowRadius: 3,
+    elevation: 2,
+  },
+  btnText: {
+    color: "#fff",
+    fontWeight: "bold",
+    fontSize: 14,
   },
 });
