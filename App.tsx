@@ -130,7 +130,7 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#f1e7e7ff",
+    backgroundColor: "#252323ff",
     paddingTop: 50,
     paddingHorizontal: 20,
   },
@@ -138,7 +138,7 @@ const styles = StyleSheet.create({
     fontSize: 22,
     fontWeight: "bold",
     marginBottom: 15,
-    color: "#000",
+    color: "#ffffffff",
     textAlign: "center",
   },
   inputContainer: {
@@ -148,7 +148,7 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontWeight: "600",
     marginBottom: 5,
-    color: "#333",
+    color: "#ffffffff",
   },
   input: {
     borderWidth: 1,
@@ -208,19 +208,19 @@ const styles = StyleSheet.create({
   },
   age: {
     fontSize: 14,
-    color: "#555",
+    color: "#000000ff",
     marginTop: 2,
   },
   color: {
     fontSize: 14,
-    color: "#333",
+    color: "#000000ff",
     marginTop: 2,
   },
 
   // Delete button
   deleteButton: {
     marginTop: 10,
-    backgroundColor: "#ff4d4d",
+    backgroundColor: "#ff0000ff",
     paddingVertical: 8,
     paddingHorizontal: 12,
     borderRadius: 6,
@@ -234,7 +234,7 @@ const styles = StyleSheet.create({
     elevation: 2,
   },
   btnText: {
-    color: "#fff",
+    color: "#000000ff",
     fontWeight: "bold",
     fontSize: 14,
   },
